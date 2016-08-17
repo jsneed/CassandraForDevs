@@ -12,7 +12,8 @@ docker-machine ls
 
 
 # same as "$(boot2docker shellinit)"
-eval "$(docker-machine env default)"
+# eval "$(docker-machine env default)"
+eval $(docker-machine env default)
 
 
 After these you should be able to run all the same docker commands (such as "docker run --name=n1 -d tobert/cassandra").
@@ -22,3 +23,20 @@ What you probably *don't* want to do is to run the "Docker Quickstart Terminal".
 Also, there's a handy table that maps boot2docker commands to docker-machine commands here: http://docs.docker.com/installation/mac/#migrate-from-boot2docker
 
 Hope this helps!
+
+------------------------------------------------------------
+# boot2docker status
+
+# docker run --name=n1 -d tobert/cassandra
+
+# docker ps
+
+# docker exec -t nl nodetool status
+
+# docker exec -t nl nodetool ring
+
+# docker exec -it n1 /bin/bash
+
+cd /data/conf
+ls
+vi cassandra.yaml

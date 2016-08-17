@@ -1,0 +1,24 @@
+Steps for Using Docker Machine Instead of Boot2Docker
+------------------------------------------------------------
+It looks like the boot2docker equivalent in the Docker Toolbox is "docker-machine".  I installed the Docker Toolbox to try it out and here are the steps to replicate what we do in the course with boot2docker:
+
+
+# same as "boot2docker --memory=4096 init" and "boot2docker up"
+docker-machine create -d virtualbox --virtualbox-memory=4096 default
+
+
+# same as "boot2docker status"
+docker-machine ls
+
+
+# same as "$(boot2docker shellinit)"
+eval "$(docker-machine env default)"
+
+
+After these you should be able to run all the same docker commands (such as "docker run --name=n1 -d tobert/cassandra").
+
+What you probably *don't* want to do is to run the "Docker Quickstart Terminal".  While this removes the need for the above commands, you'll likely be stuck with the default memory size for your docker host vm (which is 1024 not 4096).
+
+Also, there's a handy table that maps boot2docker commands to docker-machine commands here: http://docs.docker.com/installation/mac/#migrate-from-boot2docker
+
+Hope this helps!

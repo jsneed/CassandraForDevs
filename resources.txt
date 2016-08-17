@@ -1,0 +1,3 @@
+http://boot2docker.io/
+
+https://docs.docker.com/machine/migrate-to-machine/

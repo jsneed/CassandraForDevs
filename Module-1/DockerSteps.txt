@@ -27,16 +27,48 @@ Hope this helps!
 ------------------------------------------------------------
 # boot2docker status
 
-# docker run --name=n1 -d tobert/cassandra
+docker run --name=n1 -d tobert/cassandra
 
-# docker ps
+docker ps
 
-# docker exec -t nl nodetool status
+docker exec -t n1 nodetool status
 
-# docker exec -t nl nodetool ring
+docker exec -t n1 nodetool ring
 
-# docker exec -it n1 /bin/bash
+docker exec -it n1 /bin/bash
 
 cd /data/conf
 ls
 vi cassandra.yaml
+
+# :q to exit vi
+# exit to exit vm shell
+
+docker inspect -f '{{ .NetworkSettings.IPAddress}}' n1
+
+docker run --name n2 -d tobert/cassandra -seeds <<IP Address>>
+
+docker ps
+
+docker exec -t n1 nodetool status
+
+docker exec -t n2 nodetool status
+
+docker exec -t n1 nodetool ring
+
+docker exec -it n2 /bin/bash
+
+cd /data/conf
+ls
+vi cassandra.yaml
+
+# :q to exit vi
+# exit to exit vm shell
+
+docker run --name n3 -d tobert/cassandra -seeds <<IP Address>>
+
+docker exec -it n1 nodetool help
+
+docker stop n1 n2 n3
+
+docker rm n1 n2 n3

@@ -1,0 +1,43 @@
+DataCenter Example
+--------------------------------------------------
+# Create & Run Docker Image Based on Course's Cassandra Docker Image
+docker run --name n1 -d tobert/cassandra -dc DC1 -rack RAC1
+
+# List Docker Containers
+docker ps
+
+docker inspect -f '{{ .NetworkSettings.IPAddress}}' n1
+# Returns <<IP Address>>
+
+# Run Command Against n1 Docker Image - Cassandra Get Node Status
+docker exec -it n1 nodetool status
+
+docker run --name n2 -d tobert/cassandra -dc DC1 -rack RAC2 -seeds <<IP Address>>
+
+docker exec -it n1 nodetool status
+
+docker exec -it n2 nodetool status
+
+docker exec -it n1 nodetool ring
+
+# Login to n2 Box
+docker exec -it n2 /bin/bash
+
+cd /data/conf
+ls
+vi cassandra.yaml
+/endpoint_snitch
+# :q to exit vi
+vi cassandra-rackdc.properties
+# :q to exit vi
+# exit to exit vm shell
+
+docker run --name n3 -d tobert/cassandra -dc DC2 -rack RAC1 -seeds <<IP Address>>
+
+docker exec -it n1 nodetool status
+
+docker exec -it n1 nodetool ring
+
+docker stop n1 n2 n3
+
+docker rm n1 n2 n3

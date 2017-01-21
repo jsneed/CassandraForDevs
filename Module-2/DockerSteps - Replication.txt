@@ -1,0 +1,41 @@
+DataCenter Replication Example
+--------------------------------------------------
+# Create & Run Docker Image Based on Course's Cassandra Docker Image
+docker run --name n1 -d tobert/cassandra
+
+docker inspect -f '{{ .NetworkSettings.IPAddress}}' n1
+# Returns <<IP Address>>
+
+docker run --name n2 -d tobert/cassandra -seeds <<IP Address>>
+
+docker run --name n3 -d tobert/cassandra -seeds <<IP Address>>
+
+docker exec -it n1 nodetool status
+
+docker exec -it n1 cqlsh
+
+    create keyspace pluralsight with replication = {'class':'SimpleStrategy', 'replication_factor':3};
+
+    quit;
+
+docker exec -it n1 nodetool describering pluralsight
+
+docker exec -it n1 nodetool status pluralsight
+
+docker exec -it n1 cqlsh
+
+    drop keyspace pluralsight;
+
+    create keyspace pluralsight with replication = {'class':'SimpleStrategy', 'replication_factor':1};
+
+    quit;
+
+docker exec -it n1 nodetool describering pluralsight
+# One Example Line of Output
+# TokenRange(start_token:5696522151556163103, end_token:5696723443825379775, endpoints:[172.17.0.4], rpc_endpoints:[172.17.0.4], endpoint_details:[EndpointDetails(host:172.17.0.4, datacenter:datacenter1, rack:rack1)])
+
+docker exec -it n1 nodetool ring | grep 5696723443825379775
+
+docker stop n1 n2 n3
+
+docker rm n1 n2 n3

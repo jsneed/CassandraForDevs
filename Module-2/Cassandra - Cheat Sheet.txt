@@ -1,0 +1,8 @@
+Cassandra           Oracle              MySQL
+----------          ----------          ----------
+Keyspace            Table Space         Table Space
+Table               Table               Table
+Partition
+Row
+
+CQL                 SQL                 SQL

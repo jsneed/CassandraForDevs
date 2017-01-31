@@ -1,0 +1,16 @@
+Creating a Keyspace Demo
+--------------------------------------------------
+cassandra
+
+cqlsh 127.0.0.1
+
+    desc cluster;
+
+    quit;
+
+ps auwx | grep cassandra
+
+sudo kill << Process ID >>
+
+# Create & Run Docker Image Based on Course's Cassandra Docker Image
+docker run --name n1 -d tobert/cassandra
